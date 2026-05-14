@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qual É a Música? – Conselho de Classe | CMEI José Pereira</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0730;
+    --deep: #0e0845;
+    --gold: #f5c518;
+    --gold2: #ffdc6e;
+    --pink: #ff3fa4;
+    --cyan: #00e5ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, #1a0e6e 0%, #0a0730 55%, #050320 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .stars::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at  8%  12%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 18%  35%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(2px   2px   at 26%   5%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 38%  62%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 47%  28%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 55%  80%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(2px   2px   at 63%  18%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 71%  45%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 79%  72%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 88%   8%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(2px   2px   at 94%  55%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at  3%  90%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 32%  90%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 60%  95%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(2px   2px   at 85%  88%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 12%  70%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 44%  48%, #fff 0%, transparent 100%),
+      radial-gradient(1px   1px   at 75%  30%, #ffffffcc 0%, transparent 100%);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  .stars::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 22%  18%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(2px 2px at 41%  77%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 58%  40%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 73% 15%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 90%  65%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(2px 2px at  5%  50%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 50%  10%, #ffffffcc 0%, transparent 100%);
+    animation: twinkle 5s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes twinkle {
+    0%   { opacity: .5; }
+    100% { opacity: 1; }
+  }
+
+  /* gold glow blobs */
+  .bg-glow {
+    position: fixed; pointer-events: none; z-index: 0; border-radius: 50%;
+    filter: blur(80px); opacity: .12;
+  }
+  .bg-glow.g1 { width: 500px; height: 500px; background: #7c3aed; top: -100px; left: -100px; }
+  .bg-glow.g2 { width: 400px; height: 400px; background: #2563eb; top: 40%; right: -80px; }
+  .bg-glow.g3 { width: 350px; height: 350px; background: #7c3aed; bottom: -60px; left: 30%; }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 2rem 1rem .8rem;
+  }
+  .header-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 800;
+    font-size: .75rem;
+    letter-spacing: .15em;
+    padding: .2rem .9rem;
+    border-radius: 20px;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+  }
+  .title-block {
+    line-height: .95;
+  }
+  .title-line1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255,220,110,.4), 0 2px 0 rgba(0,0,0,.4);
+    letter-spacing: .03em;
+    display: block;
+  }
+  .title-line2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.8rem, 8vw, 5.8rem);
+    font-weight: 800;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(245,197,24,.6), 0 2px 0 rgba(0,0,0,.4);
+    letter-spacing: .03em;
+    display: block;
+  }
+  .title-question-mark {
+    color: var(--pink);
+    text-shadow: 0 0 30px rgba(255,63,164,.7);
+  }
+  .subtitle-box {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a0e6e, #0e0845);
+    border: 2.5px solid var(--gold);
+    border-radius: 8px;
+    padding: .4rem 2.5rem;
+    margin-top: .8rem;
+    box-shadow: 0 0 20px rgba(245,197,24,.2);
+  }
+  .subtitle-box p:first-child {
+    font-weight: 800; font-size: .95rem; letter-spacing: .14em;
+    color: #fff; text-transform: uppercase;
+  }
+  .subtitle-box p:last-child {
+    font-weight: 700; font-size: .85rem; letter-spacing: .06em;
+    color: var(--gold2);
+  }
+  .music-notes {
+    font-size: 1.8rem; margin: .4rem;
+    animation: float 3s ease-in-out infinite;
+    display: inline-block;
+    filter: drop-shadow(0 0 8px rgba(255,220,110,.8));
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50%      { transform: translateY(-8px) rotate(5deg); }
+  }
+
+  /* ── GRID ── */
+  .grid-wrapper {
+    position: relative; z-index: 1;
+    max-width: 1180px;
+    margin: 1.2rem auto 0;
+    padding: 0 1rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 900px) {
+    .grid-wrapper { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 550px) {
+    .grid-wrapper { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── CARD ── */
+  .card {
+    border-radius: 14px;
+    border: 3px solid transparent;
+    padding: 12px 10px 14px;
+    cursor: pointer;
+    position: relative;
+    transition: transform .22s, box-shadow .22s;
+    user-select: none;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-5px) scale(1.03);
+  }
+
+  /* Bulb-light border effect using outline + glow */
+  .card::after {
+    content: '';
+    position: absolute; inset: -3px;
+    border-radius: 16px;
+    pointer-events: none;
+    box-shadow: 0 0 10px 2px var(--card-glow);
+    opacity: .7;
+    transition: opacity .22s;
+  }
+  .card:hover::after { opacity: 1; }
+
+  /* Card colour themes — matching the image exactly */
+  .card.c1  {
+    --card-glow: #7e57c2;
+    border-color: #7e57c2;
+    background: linear-gradient(160deg, #e8dff7, #d5c8f0);
+  }
+  .card.c2  {
+    --card-glow: #e91e8c;
+    border-color: #e91e8c;
+    background: linear-gradient(160deg, #fde6f2, #f9c5e2);
+  }
+  .card.c3  {
+    --card-glow: #e53935;
+    border-color: #e53935;
+    background: linear-gradient(160deg, #fff0f0, #fdd8d8);
+  }
+  .card.c4  {
+    --card-glow: #6d4c41;
+    border-color: #6d4c41;
+    background: linear-gradient(160deg, #f5f0ee, #e8ddd9);
+  }
+  .card.c5  {
+    --card-glow: #fb8c00;
+    border-color: #fb8c00;
+    background: linear-gradient(160deg, #fff5e6, #fde3b8);
+  }
+  .card.c6  {
+    --card-glow: #2e7d32;
+    border-color: #2e7d32;
+    background: linear-gradient(160deg, #edf7ee, #d0ecd1);
+  }
+  .card.c7  {
+    --card-glow: #1565c0;
+    border-color: #1565c0;
+    background: linear-gradient(160deg, #e3f0fd, #bcd6f8);
+  }
+  .card.c8  {
+    --card-glow: #6a1b9a;
+    border-color: #6a1b9a;
+    background: linear-gradient(160deg, #f5e8fc, #e2c4f5);
+  }
+  .card.c9  {
+    --card-glow: #c62828;
+    border-color: #c62828;
+    background: linear-gradient(160deg, #fff0f0, #fdd5d5);
+  }
+  .card.c10 {
+    --card-glow: #00838f;
+    border-color: #00838f;
+    background: linear-gradient(160deg, #e0f7fa, #b0e8ed);
+  }
+  .card.c11 {
+    --card-glow: #f9a825;
+    border-color: #f9a825;
+    background: linear-gradient(160deg, #fffde7, #fdf0b0);
+  }
+  .card.c12 {
+    --card-glow: #2e7d32;
+    border-color: #2e7d32;
+    background: linear-gradient(160deg, #edf7ee, #c5e8c7);
+  }
+  .card.c13 {
+    --card-glow: #00838f;
+    border-color: #00838f;
+    background: linear-gradient(160deg, #e0f7fa, #80deea);
+  }
+  .card.c14 {
+    --card-glow: #f57f17;
+    border-color: #f57f17;
+    background: linear-gradient(160deg, #fffde7, #ffe8a0);
+  }
+
+  .card-number {
+    position: absolute; top: -1px; left: -1px;
+    width: 24px; height: 24px;
+    border-radius: 12px 0 8px 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800; font-size: .8rem;
+    color: #fff;
+  }
+  .c1  .card-number { background: #7e57c2; }
+  .c2  .card-number { background: #e91e8c; }
+  .c3  .card-number { background: #e53935; }
+  .c4  .card-number { background: #6d4c41; }
+  .c5  .card-number { background: #fb8c00; }
+  .c6  .card-number { background: #2e7d32; }
+  .c7  .card-number { background: #1565c0; }
+  .c8  .card-number { background: #6a1b9a; }
+  .c9  .card-number { background: #c62828; }
+  .c10 .card-number { background: #00838f; }
+  .c11 .card-number { background: #f9a825; }
+  .c12 .card-number { background: #2e7d32; }
+  .c13 .card-number { background: #00838f; }
+  .c14 .card-number { background: #f57f17; }
+
+  .card-emoji {
+    font-size: 2rem; text-align: center;
+    margin: 8px 0 4px;
+    display: block;
+    line-height: 1;
+  }
+  .card-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: .88rem;
+    text-align: center;
+    line-height: 1.15;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    min-height: 2em;
+  }
+  .card-artist {
+    font-size: .65rem;
+    font-weight: 700;
+    text-align: center;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 2px 0 6px;
+  }
+  .card-desc {
+    font-size: .67rem;
+    color: #333;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  /* ── MODAL ── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(5,3,30,.85);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .overlay.open {
+    opacity: 1; pointer-events: all;
+  }
+
+  .modal {
+    border-radius: 22px;
+    border: 4px solid #ccc;
+    padding: 2rem 2.2rem 2.2rem;
+    max-width: 400px; width: 100%;
+    position: relative;
+    transform: scale(.85) translateY(20px);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 40px rgba(255,255,255,.05);
+  }
+  .overlay.open .modal {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800; font-size: 1rem; color: #fff;
+    margin-bottom: .6rem;
+  }
+  .modal-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin: .3rem auto .6rem;
+    animation: pop .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop {
+    from { transform: scale(0) rotate(-15deg); }
+    to   { transform: scale(1) rotate(0); }
+  }
+  .modal-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.55rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: .2rem;
+  }
+  .modal-artist {
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  .modal-desc {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.6;
+    background: rgba(255,255,255,.5);
+    border-radius: 10px;
+    padding: .8rem 1rem;
+  }
+
+  .close-btn {
+    position: absolute; top: 12px; right: 14px;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.5rem; color: #888;
+    transition: color .2s, transform .2s;
+    line-height: 1;
+  }
+  .close-btn:hover { color: #333; transform: scale(1.2) rotate(90deg); }
+
+  /* ── AUDIO PLAYER ── */
+  .audio-wrapper {
+    margin-top: 1.1rem;
+  }
+  .audio-wrapper audio {
+    width: 100%;
+    border-radius: 30px;
+    outline: none;
+    height: 36px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 1rem 1rem 2rem;
+    color: rgba(255,255,255,.6);
+    font-size: .8rem;
+  }
+  .footer-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1rem;
+    margin-bottom: .5rem;
+  }
+  .footer-row span {
+    font-weight: 800; font-size: .82rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--gold2);
+  }
+  .footer-row span::before { content: '• '; color: var(--pink); }
+  .footer-row span:first-child::before { content: ''; }
+  .footer-tagline {
+    font-weight: 800; font-size: .9rem;
+    color: var(--gold2); letter-spacing: .06em;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255,220,110,.4);
+  }
+
+  /* hint */
+  .hint {
+    position: relative; z-index: 1;
+    text-align: center;
+    color: rgba(255,255,255,.4);
+    font-size: .78rem;
+    font-weight: 600;
+    margin-top: .2rem;
+    letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<div class="bg-glow g3"></div>
+
+<header>
+  <div class="header-tag">Programa</div>
+  <div>
+    <span class="music-notes" style="animation-delay:.0s">🎵</span>
+    <span class="music-notes" style="animation-delay:.4s; font-size:2.2rem">🎼</span>
+    <span class="music-notes" style="animation-delay:.2s">🎶</span>
+  </div>
+  <div class="title-block">
+    <span class="title-line1">QUAL É A</span>
+    <span class="title-line2">MÚSICA<span class="title-question-mark">?</span></span>
+  </div>
+  <div class="subtitle-box">
+    <p>Conselho de Classe</p>
+    <p>CMEI José Pereira</p>
+  </div>
+</header>
+
+<p class="hint">Clique em qualquer card para expandir ✨</p>
+
+<div class="grid-wrapper" id="grid"></div>
+
+<footer>
+  <div class="footer-row">
+    <span>Observar</span>
+    <span>Escutar</span>
+    <span>Refletir</span>
+    <span>Planejar</span>
+    <span>Transformar</span>
+  </div>
+  <div class="footer-tagline">Educar é acreditar, é fazer acontecer!</div>
+</footer>
+
+<!-- OVERLAY / MODAL -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="close-btn" id="closeBtn" aria-label="Fechar">✕</button>
+    <div class="modal-number" id="mNum"></div>
+    <span class="modal-emoji" id="mEmoji"></span>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-artist" id="mArtist"></div>
+    <div class="modal-desc" id="mDesc"></div>
+    <div class="audio-wrapper">
+      <audio id="audioPlayer" controls autoplay></audio>
+    </div>
+  </div>
+</div>
+
+<script>
+const cards = [
+  { num:1,  color:'c1',  emoji:'⭐', title:'Dias Melhores',                artist:'Jota Quest',            desc:'Mesmo nos desafios, essa turma mostra que sempre existem possibilidades de crescimento.',              src:'./assets/Dias_Melhores_-_Jota_Quest.mp3',                                                                        start:210, end:245 },
+  { num:2,  color:'c2',  emoji:'🌈', title:'Aquarela',                      artist:'Toquinho',               desc:'Criativa, sonhadora e cheia de imaginação.',                                                         src:'./assets/MU_SICA_AQUARELA_ORIGINAL_TOQUINHO.mp3',                                                               start:13,  end:98 },
+  { num:3,  color:'c3',  emoji:'🚄', title:'Trem Bala',                     artist:'Ana Vilela',             desc:'No fim, o que fica são os vínculos e os momentos construídos juntos.',                                src:'./assets/Ana_Vilela_-_Trem-Bala_-__Clipe_Oficial_.mp3',                                                        start:8,   end:90  },
+  { num:4,  color:'c4',  emoji:'🎤', title:'Palco',                         artist:'Gilberto Gil',           desc:'Uma turma protagonista, que gosta de aparecer e brilhar.',                                           src:'./assets/Palco.mp3',                                                                                           start:43,  end:119 },
+  { num:5,  color:'c5',  emoji:'☀️', title:'O Sol',                         artist:'Vitor Kley',             desc:'Leves, alegres e cheios de energia.',                                                                src:'./assets/O_Sol_-_Vitor_Kley_lyrics.mp3',                                                                       start:13,  end:83  },
+  { num:6,  color:'c6',  emoji:'👧🏽', title:'Velha Infância',                artist:'Tribalistas',            desc:'Uma turma que lembra a beleza da infância vivida com afeto.',                                        src:'./assets/Tribalistas_-_Velha_Infa_ncia.mp3',                                                                   start:16,  end:68  },
+  { num:7,  color:'c7',  emoji:'📣', title:'Metralhadora',                  artist:'Banda Vingadora',        desc:'Falam ao mesmo tempo, perguntam tudo e ninguém consegue ficar parado! 😄',                          src:'./assets/Vingadora_-_Metralhadora_-_Audio.mp3',                                                                start:21,  end:52  },
+  { num:8,  color:'c8',  emoji:'🎊', title:'Baile de Favela',               artist:'MC João',                desc:'Quando a turma inteira resolve conversar junta, parece até recreio antecipado! 😄',                  src:'./assets/MC_Joa_o_-_Baile_de_Favela__KondZilla_.mp3',                                                          start:19,  end:28  },
+  { num:9,  color:'c9',  emoji:'❤️', title:'É Preciso Saber Viver',         artist:'Titãs',                  desc:'Uma turma que aprende muito sobre convivência e respeito.',                                          src:'./assets/E__preciso_saber_viver.mp3',                                                                          start:23,  end:94  },
+  { num:10, color:'c10', emoji:'🎉', title:'Festa',                         artist:'Ivete Sangalo',          desc:'Animados, intensos e prontos para transformar qualquer momento em evento.',                           src:'./assets/Ivete_Sangalo_-_Festa__Video_Clipe_.mp3',                                                             start:107, end:135 },
+  { num:11, color:'c11', emoji:'🤔', title:'Desenrola, Bate, Joga de Ladin',artist:'L7NNON e Os Hawaianos',  desc:'Uma turma que sempre tenta negociar mais cinco minutinhos. 😄',                                      src:'./assets/L7NNON___OS_HAWAIANOS__-_Desenrola_Bate_Joga_de_Ladin__Dj_Bel_da_Cdd_e_Biel_do_Furduncinho_.mp3',    start:14,  end:47  },
+  { num:12, color:'c12', emoji:'🏆', title:'Dias de Luta, Dias de Glória',  artist:'Charlie Brown Jr.',      desc:'Nem sempre foi fácil, mas evoluímos muito juntos.',                                                  src:'./assets/Charlie_Brown_Jr__-_Dias_De_Luta__Dias_De_Glo_ria.mp3',                                               start:31,  end:64  },
+  { num:13, color:'c13', emoji:'💗', title:'Meu Abrigo',                    artist:'Melim',                  desc:'Uma turma acolhedora, parceira e cheia de carinho.',                                                 src:'./assets/Melim_-_Meu_Abrigo.mp3',                                                                              start:11,  end:92  },
+  { num:14, color:'c14', emoji:'😎', title:'Tá Tranquilo, Tá Favorável',    artist:'MC Bin Laden',           desc:'Aquela turma que chega na sexta-feira já no clima do descanso. 😎',                                 src:'./assets/MC_Bin_Laden_-_Ta_Tranquilo_Ta_Favora_vel__Clipe_Oficial_.mp3',                                       start:43,  end:58  },
+];
+
+const numColors = {
+  c1:'#7e57c2',c2:'#e91e8c',c3:'#e53935',c4:'#6d4c41',c5:'#fb8c00',
+  c6:'#2e7d32',c7:'#1565c0',c8:'#6a1b9a',c9:'#c62828',c10:'#00838f',
+  c11:'#f9a825',c12:'#2e7d32',c13:'#00838f',c14:'#f57f17'
+};
+
+const modalBg = {
+  c1:'linear-gradient(160deg,#e8dff7,#d5c8f0)',
+  c2:'linear-gradient(160deg,#fde6f2,#f9c5e2)',
+  c3:'linear-gradient(160deg,#fff0f0,#fdd8d8)',
+  c4:'linear-gradient(160deg,#f5f0ee,#e8ddd9)',
+  c5:'linear-gradient(160deg,#fff5e6,#fde3b8)',
+  c6:'linear-gradient(160deg,#edf7ee,#d0ecd1)',
+  c7:'linear-gradient(160deg,#e3f0fd,#bcd6f8)',
+  c8:'linear-gradient(160deg,#f5e8fc,#e2c4f5)',
+  c9:'linear-gradient(160deg,#fff0f0,#fdd5d5)',
+  c10:'linear-gradient(160deg,#e0f7fa,#b0e8ed)',
+  c11:'linear-gradient(160deg,#fffde7,#fdf0b0)',
+  c12:'linear-gradient(160deg,#edf7ee,#c5e8c7)',
+  c13:'linear-gradient(160deg,#e0f7fa,#80deea)',
+  c14:'linear-gradient(160deg,#fffde7,#ffe8a0)'
+};
+
+const grid = document.getElementById('grid');
+
+cards.forEach(c => {
+  const div = document.createElement('div');
+  div.className = `card ${c.color}`;
+  div.setAttribute('role', 'button');
+  div.setAttribute('tabindex', '0');
+  div.setAttribute('aria-label', `${c.title} – ${c.artist}`);
+  div.innerHTML = `
+    <div class="card-number">${c.num}</div>
+    <span class="card-emoji">${c.emoji}</span>
+    <div class="card-title">${c.title}</div>
+    <div class="card-artist">${c.artist}</div>
+    <div class="card-desc">${c.desc}</div>
+  `;
+  div.addEventListener('click', () => openModal(c));
+  div.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(c); });
+  grid.appendChild(div);
+});
+
+const overlay = document.getElementById('overlay');
+const modal   = document.getElementById('modal');
+
+function openModal(c) {
+  document.getElementById('mNum').textContent = c.num;
+  document.getElementById('mNum').style.background = numColors[c.color];
+  document.getElementById('mEmoji').textContent = c.emoji;
+  document.getElementById('mTitle').textContent = c.title;
+  document.getElementById('mArtist').textContent = c.artist;
+  document.getElementById('mDesc').textContent = c.desc;
+
+  const audio = document.getElementById('audioPlayer');
+  if (c.src) {
+    audio.src = c.src;
+    audio.style.display = 'block';
+    audio.load();
+    audio.addEventListener('loadedmetadata', function seekAndPlay() {
+      audio.currentTime = c.start;
+      audio.play().catch(() => {});
+      audio.removeEventListener('loadedmetadata', seekAndPlay);
+    });
+    // stop at end time
+    audio._endTime = c.end;
+  } else {
+    audio.src = '';
+    audio.style.display = 'none';
+  }
+
+  modal.style.borderColor = numColors[c.color];
+  modal.style.boxShadow = `0 30px 80px rgba(0,0,0,.6), 0 0 30px ${numColors[c.color]}55`;
+  modal.style.background = modalBg[c.color];
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const audio = document.getElementById('audioPlayer');
+  audio.pause();
+  audio.src = '';
+  audio._endTime = null;
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// watch for end time
+document.getElementById('audioPlayer').addEventListener('timeupdate', function() {
+  if (this._endTime && this.currentTime >= this._endTime) {
+    this.pause();
+    this.currentTime = this._endTime;
+  }
+});
+
+document.getElementById('closeBtn').addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
